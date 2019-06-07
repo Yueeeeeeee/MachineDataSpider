@@ -23,6 +23,8 @@ def outputExcel(urlList):
 
         div = soupMachine.find("tbody") # where the machine specs are
         specList = re.findall(r'<td>.*</td>', str(div)) # find all labels and specs and then divide them
+        print(str(div))
+        print(len(specList))
         specIterator = iter(specList)
         column = 1
         for i in specIterator:
@@ -39,7 +41,7 @@ def outputExcel(urlList):
 ua = UserAgent()
 ua.chrome
 
-mazakAllMachines = []
+mazakAllMachineHTML = []
 urlList = []
 mazakURL = "https://www.mazakeu.com"
 htmlMazak = urlopen("https://www.mazakeu.com/machines").read().decode('utf-8')
@@ -51,13 +53,24 @@ mazakMachinesColumn = soup.find_all("div", {"class": "all-machines-column"}) # r
 # create a iterator to merge machine columns in one list
 columnIterator = iter(mazakMachinesColumn)
 for i in columnIterator:
-    mazakAllMachines = mazakAllMachines + i.find_all(re.compile('li')) # for 'li' see html code of Mazak
+    mazakAllMachineHTML = mazakAllMachineHTML + i.find_all(re.compile('li')) # for 'li' see html code of Mazak
 
 # create an iterator for every machine and append URL address to urlList
-machineIterator = iter(mazakAllMachines)
+machineIterator = iter(mazakAllMachineHTML)
 for i in machineIterator:
     temp = mazakURL + str(re.findall(r'".*"', str(i)))[3:][:-3] # find URL and delete first & last four char
     urlList.append(temp)
+
+# save URL list in an excel file
+excelFile = Workbook(encoding='utf-8')
+excelTable = excelFile.add_sheet('MAZAK_URLList')
+row = 0
+excelIterator = iter(urlList)
+for i in excelIterator:
+    print(str(i))
+    excelTable.write(row, 0, str(i))
+    row = row + 1
+excelFile.save('MAZAK_URLList.xls')
 
 # finally output the data in CSV format
 outputExcel(urlList)
