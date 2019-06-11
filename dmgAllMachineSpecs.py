@@ -6,67 +6,45 @@ from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from xlwt import *
+import xlrd
 
 
-def outputChildLink(url, product = False):
+def outputExcel(url):
+    urlIterator = iter(urlList)
+    excelFile = Workbook(encoding='utf-8')
+    excelTable = excelFile.add_sheet('DMG')
 
-    # options for selenium, including not showing chrome window
-    resultList = []
-    optionChrome = Options()
-    optionChrome.add_argument('--headless')
-    optionChrome.add_argument('--disable-gpu')
-    optionChrome.add_argument('disable-plugins')
-    optionChrome.add_argument('disable-extensions')
+    row = 0
+    for i in urlIterator:
 
-    # open chromedriver and get HTML
-    driverChrome = webdriver.Chrome(options = optionChrome)
-    driverChrome.get(url)
-    time.sleep(2)
-    htmlResult = driverChrome.page_source
-    driverChrome.quit()
+        htmlMachine = urlopen(i).read().decode('utf-8')
+        soupMachine = BeautifulSoup(htmlMachine, 'lxml')
 
-    # find URL links in HTML depending on whether looking for machine or teasers
-    soup = BeautifulSoup(htmlResult, features='lxml')
-    if product:
-        htmlList = soup.find_all('a', {"class": "ci-product-link"}, href=True) # return a list of all related html code
-    else:
-        htmlList = soup.find_all('a', {"class": "ci-teaser-link"}, href=True)  # return a list of all related html code
+        print(str(soupMachine.h1)[4:][:-5])
+        excelTable.write(row, 0, str(soupMachine.h1)[4:][:-5])  # write machine name in 1. column
+        div = soupMachine.find_all('span', {"class": "ci-table-content-child-span"})  # where the machine specs are
 
-    # modify URL links
-    htmlIterator = iter(htmlList)
-    for i in htmlIterator:
-        temp = "https://en.dmgmori.com" + str(re.findall(r'href=".*" target="_self">', str(i)))[8:][:-19] # generate URL
-        resultList.append(temp)
+        column = 1 # rest specs start from 1. column
+        divIterator = iter(div)
+        for i in divIterator:
+            print("writing column: " + str(column) + ", row: " + str(row) + ", content: " + str(i)[42:][:-7])  # console output
+            excelTable.write(row, column, str(i)[42:][:-7])  # writing without useless chars
+            column = column + 1  # write data / label in next cell
 
-    return(resultList)
+        row = row + 1  # change to next row
 
-#mazakAllMachines = []
+    excelFile.save('DMG_MachineData.xls')
+
+# start of code
+# open excel file
+excelURLFile = xlrd.open_workbook('DMG_URLList.xls')
+excelTable = excelURLFile.sheet_by_name('DMG_URLList')
+
+# add all entries in a urlList
 urlList = []
-urlSerieList = []
+i = 0
+while i < excelTable.nrows:
+    urlList.append(excelTable.cell(i, 0).value)
+    i = i + 1
 
-# Generate a URL list of all possible machine types
-machineTypeList = outputChildLink("https://en.dmgmori.com/products/machines/turning", False) + outputChildLink("https://en.dmgmori.com/products/machines/milling", False)
-
-# Generate a URL list of all possible machine series
-typeIterator = iter(machineTypeList)
-for i in typeIterator:
-    print(str(i))
-    urlSerieList = urlSerieList + outputChildLink(str(i), False)
-
-# Generate a URL list of all possible machines and write in file DMG_URLList.xls
-machineIterator = iter(urlSerieList)
-for i in machineIterator:
-    print(str(i))
-    urlList = urlList + outputChildLink(str(i), True)
-
-excelFile = Workbook(encoding='utf-8')
-excelTable = excelFile.add_sheet('DMG_URLList')
-
-row = 0
-excelIterator = iter(urlList)
-for i in excelIterator:
-    print(str(i))
-    excelTable.write(row, 0, str(i))
-    row = row + 1
-
-excelFile.save('DMG_URLList.xls')
+outputExcel(urlList)

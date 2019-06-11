@@ -17,8 +17,6 @@ def outputExcel(urlList):
         htmlMachine = urlopen(i).read().decode('utf-8')
         soupMachine = BeautifulSoup(htmlMachine, 'lxml')
 
-        # outputList = []
-        #outputList.append(str(soupMachine.h1)[14:][:-11])
         excelTable.write(row, 0, str(soupMachine.h1)[14:][:-11]) #write machine name in 1. column
 
         div = soupMachine.find("tbody") # where the machine specs are
@@ -34,7 +32,7 @@ def outputExcel(urlList):
 
         row = row + 1 # change to next row
 
-    excelFile.save('MazakData.xls')
+    excelFile.save('Mazak_MachineData.xls')
 
 
 # start of code
