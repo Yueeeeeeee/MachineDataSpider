@@ -61,14 +61,14 @@ for i in machineIterator:
 
 # save URL list in an excel file
 excelFile = Workbook(encoding='utf-8')
-excelTable = excelFile.add_sheet('MAZAK_URLList')
+excelTable = excelFile.add_sheet('Mazak_URLList')
 row = 0
 excelIterator = iter(urlList)
 for i in excelIterator:
     print(str(i))
     excelTable.write(row, 0, str(i))
     row = row + 1
-excelFile.save('MAZAK_URLList.xls')
+excelFile.save('Mazak_URLList.xls')
 
 # finally output the data in CSV format
 outputExcel(urlList)
