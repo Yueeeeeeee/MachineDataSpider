@@ -1,5 +1,4 @@
 import re
-import lxml
 from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 from urllib.request import urlopen

@@ -1,19 +1,17 @@
 import re
-import lxml
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
-from urllib.request import urlopen
 from xlwt import *
 
 
-def outputChildLink(url, product = False):
+def outputChildLink(url):
 
     # options for selenium, including not showing chrome window
     resultList = []
     optionChrome = Options()
-    optionChrome.add_argument('--headless')
+    # optionChrome.add_argument('--headless') # Disable this line if you come to Siemens Authentication Page, you can manually log in there
     optionChrome.add_argument('--disable-gpu')
     optionChrome.add_argument('disable-plugins')
     optionChrome.add_argument('disable-extensions')
@@ -27,51 +25,43 @@ def outputChildLink(url, product = False):
 
     # find URL links in HTML depending on whether looking for machine or teasers
     soup = BeautifulSoup(htmlResult, features='lxml')
-    print(soup)
-    if product:
-        htmlList = soup.find_all('div', {'class': 'product_selec clfix'}) # return a list of all related html code
-        print(htmlList)
-    else:
-        htmlList = soup.find_all('div', {'class': 'product_selec clfix'}, href=True)  # return a list of all related html code
-        print(htmlList)
+    htmlList = soup.find_all('div', {'class': 'product_selec clfix'}) # return a list of all related html code
+    print(htmlList)
+
+    formatURL1 = "http://www.doosanmachinetools.com/en/product/detail.do?CATEGORY_ID="
+    formatURL2 = "&PRODUCT_ID="
 
     # modify URL links
     htmlIterator = iter(htmlList)
     for i in htmlIterator:
-        temp = "https://http://www.doosanmachinetools.com" + str(re.findall(r'href=".*" target="_self">', str(i)))[8:][:-19] # generate URL
-        resultList.append(temp)
+        category = str(re.findall(r'<select id="child_.*" name="child_', str(i)))[20:-16]
+        idInitialList = re.findall(r'<option value=".*">', str(i)) # generate URL
+
+        idIterator = iter(idInitialList)
+        for id in idIterator:
+            if(len(str(id)[15:-2]) < 9):
+                continue
+            urlString = formatURL1 + category + formatURL2 + str(id)[15:-2]
+            resultList.append(urlString)
+            print(urlString)
 
     return(resultList)
 
-#mazakAllMachines = []
-urlList = []
-urlSerieList = []
+# Main Program
+urlMachineList = []
 
-url= "http://www.doosanmachinetools.com/en/product/turning.do"
-outputChildLink(url, True)
+# Generate a URL list of all possible machine types
+urlMachineList = outputChildLink("http://www.doosanmachinetools.com/en/product/turning.do") + outputChildLink("http://www.doosanmachinetools.com/en/product/machining.do")
 
+# Generate a URL list of all possible machines and write in file Doosan_URLList.xls
+excelFile = Workbook(encoding='utf-8')
+excelTable = excelFile.add_sheet('Doosan_URLList')
 
-# # Generate a URL list of all possible machine types
-# machineTypeList = outputChildLink("http://www.doosanmachinetools.com/en/product/turning.do", False) + outputChildLink("http://www.doosanmachinetools.com/en/product/machining.do", False)
-#
-# # Generate a URL list of all possible machine series
-# typeIterator = iter(machineTypeList)
-# for i in typeIterator:
-#     urlSerieList = urlSerieList + outputChildLink(str(i), False)
-#
-# # Generate a URL list of all possible machines and write in file Doosan_URLList.xls
-# machineIterator = iter(urlSerieList)
-# for i in machineIterator:
-#     urlList = urlList + outputChildLink(str(i), True)
-#
-# excelFile = Workbook(encoding='utf-8')
-# excelTable = excelFile.add_sheet('Doosan_URLList')
-#
-# row = 0
-# excelIterator = iter(urlList)
-# for i in excelIterator:
-#     print(str(i))
-#     excelTable.write(row, 0, str(i))
-#     row = row + 1
-#
-# #excelFile.save('Doosan_URLList.xls')
+row = 0
+excelIterator = iter(urlMachineList)
+for i in excelIterator:
+    print(str(i))
+    excelTable.write(row, 0, str(i))
+    row = row + 1
+
+excelFile.save('Doosan_URLList.xls')

@@ -1,8 +1,3 @@
-import re
-import lxml
-import time
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from xlwt import *
