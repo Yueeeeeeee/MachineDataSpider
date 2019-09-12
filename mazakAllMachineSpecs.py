@@ -20,12 +20,12 @@ def outputExcel(urlList):
 
         div = soupMachine.find("tbody") # where the machine specs are
         specList = re.findall(r'<td>.*</td>', str(div)) # find all labels and specs and then divide them
-        print(str(div))
-        print(len(specList))
+        #print(str(div))
+        #print(specList)
         specIterator = iter(specList)
         column = 1
         for i in specIterator:
-            print("writing column: " + str(column) + ", row: " + str(row) + ", content: " + str(i)[4:][:-5]) # console output
+            #print("writing column: " + str(column) + ", row: " + str(row) + ", content: " + str(i)[4:][:-5]) # console output
             excelTable.write(row,column,str(i)[4:][:-5]) # writing without useless chars
             column = column + 1 # write data / label in next cell
 
@@ -44,17 +44,20 @@ mazakURL = "https://www.mazakeu.com"
 htmlMazak = urlopen("https://www.mazakeu.com/machines").read().decode('utf-8')
 
 # use bs4 to collect html information
-soup = BeautifulSoup(htmlMazak, features='lxml')
+soup = BeautifulSoup(htmlMazak, 'lxml')
 mazakMachinesColumn = soup.find_all("div", {"class": "all-machines-column"}) # return a list of all machine columns
+print(len(mazakMachinesColumn))
+print(mazakMachinesColumn)
 
 # create a iterator to merge machine columns in one list
 columnIterator = iter(mazakMachinesColumn)
 for i in columnIterator:
-    mazakAllMachineHTML = mazakAllMachineHTML + i.find_all(re.compile('li')) # for 'li' see html code of Mazak
+    mazakAllMachineHTML = mazakAllMachineHTML + i.find_all(r'li') # for 'li' see html code of Mazak
 
 # create an iterator for every machine and append URL address to urlList
 machineIterator = iter(mazakAllMachineHTML)
 for i in machineIterator:
+    print(re.findall(r'".*"', str(i)))
     temp = mazakURL + str(re.findall(r'".*"', str(i)))[3:][:-3] # find URL and delete first & last four char
     urlList.append(temp)
 

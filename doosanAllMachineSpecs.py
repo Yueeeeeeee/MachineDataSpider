@@ -5,7 +5,7 @@ import xlrd
 import re
 
 def outputExcel(url):
-    urlIterator = iter(urlList)
+    urlIterator = iter(url)
     excelFile = Workbook(encoding='utf-8')
     excelTable = excelFile.add_sheet('Doosan')
 
