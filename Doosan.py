@@ -70,6 +70,7 @@ for i in urlIterator:
         counter = counter + 1
 
 print("Downloading URLs finished")
+print(urlList)
 urlIterator = iter(urlList)
 row = 0
 
