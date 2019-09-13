@@ -28,7 +28,6 @@ def writeData(labelList, curlData, rowNum, table):
         table.write(rowNum, 2 * colNum, dataList[j])
         colNum += 1
 
-# test github
 
 urlList = ['https://www.doosanmachinetools.com/en/product/series/D221_69/view.do', 'https://www.doosanmachinetools.com/en/product/series/D203_53/view.do']
 
