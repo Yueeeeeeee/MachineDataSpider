@@ -61,7 +61,7 @@ for z in range(len(u)):
         Spec_Unit = str(re.findall(r'<td class="technicaldata-unit">.*</td>', str(Unit)))[34:][:-8]
         UnitList.append(Spec_Unit)
         Unit = Unit.find_next('td', attrs={"class": "technicaldata-unit"})
-
+#fcsdfsd
 
     Spec = Tech.find('td', {"class": "technicaldata-th hyphenate"})
 
