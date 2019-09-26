@@ -5,10 +5,10 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-u = 'https://www.heller.biz/en/machines-and-solutions/4-axis-machining-centres-h/'
+
 
 excelFile = Workbook(encoding='utf-8')
-excelTable = excelFile.add_sheet('Heller')
+excelTable = excelFile.add_sheet('GROB')
 
 optionChrome = Options()
 optionChrome.add_argument('--headless')
@@ -16,47 +16,73 @@ optionChrome.add_argument('--disable-gpu')
 optionChrome.add_argument('disable-plugins')
 optionChrome.add_argument('disable-extensions')
 
+#########################################################################
+#url collection
+# u = ['https://www.grobgroup.com/en/products/applications/milling/', 'https://www.grobgroup.com/en/products/applications/mill-turning/']
+#
+# urlList = []
+#
+# for z in range(len(u)):
+#     driverChrome = webdriver.Chrome(options=optionChrome)
+#     driverChrome.get(u[z])
+#     time.sleep(2)
+#     htmlResult = driverChrome.page_source
+#     driverChrome.quit()
+#
+#     soup_url = BeautifulSoup(htmlResult, 'lxml')
+#
+#     html = soup_url.find('div', attrs={"class", "linkButton animated"})
+#
+#     while html is not None:
+#         url = str(re.findall(r'href=".*"', str(html)))[8:][:-52]
+#         urlList.append(url)
+#         html = html.find_next('div', attrs={"class", "linkButton animated"})
+
+################################################################################################
+# rowNum = 0
+# for q in range(len(urlList)):
+pop = 'https://www.grobgroup.com/en/products/product-range/system-solutions/machining-centers-for-frame-structure-parts/g500f/'
 driverChrome = webdriver.Chrome(options=optionChrome)
-driverChrome.get(u)
+driverChrome.get(pop)
 time.sleep(2)
 htmlResult = driverChrome.page_source
 driverChrome.quit()
 
 soup = BeautifulSoup(htmlResult, 'lxml')
+Data = soup.find('div', attrs={"class": "TechnicalValue"})
 
-Tech = soup.find('tr', {"class": "technicaldata-content"})
+print(Data.string)
+    # Label_1 = soup.find('div', attrs={"class": "TechnicalTitle"})
+    # Label_2 = soup.find('div', attrs={"class": "productTechnicalLine2"})
+    # Data = soup.find('div', attrs={"class": "TechnicalValue"})
+    # LabelList = []
+    # DataList = []
+    # while Label_1 is not None:
+    #     if Label_1.string is None:
+    #         pass
+    #     else:
+    #         Label = str(Label_1.string) + ' ' + str(Label_2.string)
+    #         LabelList.append(Label)
+    #     Label_1 = Label_1.find_next('div', attrs={"class": "TechnicalTitle"})
+    #     Label_2 = Label_2.find_next('div', attrs={"class": "productTechnicalLine2"})
 
-Spec = Tech.find('td', {"class": "technicaldata-th hyphenate"})
+    # while Data is not None:
+    #     if Data.string is None:
+    #         pass
+    #     else:
+    #         LabelList.append(Data.string)
+    #     Data = Data.find_next('div', attrs={"class": "TechnicalValue"})
+    # print(DataList)
+    # colNum_Label = 0
 
-Unit_temp = Tech.find('td', {"class": "technicaldata-unit"})
-Unit = Unit_temp.find('td', {"class": "technicaldata-unit"})
-Spec_Unit = str(re.findall(r'<td class="technicaldata-unit">.*</td>', str(Unit)))[34:][:-8]
-
-LabelList = []
-
-while Spec is not None:
-    SpecLabel_1 = str(re.findall(r'<td class="technicaldata-th hyphenate">.*<br/>', str(Spec)))[42:][:-8].replace("\\xad", '')
-    SpecLabel_2 = str(re.findall(r'<span class="details">.*</span>', str(Spec)))[25:][:-10].replace("\\xad", '')
-    LabelList.append(SpecLabel_1+" "+SpecLabel_2+" "+Spec_Unit)
-    Spec = Spec.find_next('td', {"class": "technicaldata-th hyphenate"})
-
-
-Data_temp = Tech.find('td', {"class": "technicaldata-td"})
-Data = str(re.findall(r'<span>.*</span>', str(Data_temp)))[8:][:-9]
-
-
-SpecData_temp = Tech.find_all('td', {"class": "technicaldata-td"})
-SpecData = str(re.findall(r'<span>.*</span>', str(SpecData_temp)))
-Spec_test = SpecData.replace('<span>','').replace('</span></td>','').replace('<td class="technicaldata-td">','').replace('</span>','').split(',')
-SpecDataList = []
-Iterator = iter(Spec_test)
-row = 0
-for i in Iterator:
-    if "'" in str(i):
-        excelTable.write(row, 1, str(i).replace("['",'').replace("']",''))
-        row += 1
-    else:
-        excelTable.write(row, 1, str(i))
-        row += 1
-
-excelFile.save('Test.xls')
+#     Name = soup.find('h1')
+#     excelTable.write(rowNum, colNum_Label, Name.string)
+#
+#     for i in range(len(LabelList)):
+#         excelTable.write(rowNum, 2 * colNum_Label + 1, LabelList[i])
+#         excelTable.write(rowNum, 2 * colNum_Label + 2, DataList[i])
+#         colNum_Label += 1
+#     rowNum += 1
+#
+# excelFile.save('Grob.xls')
+#
