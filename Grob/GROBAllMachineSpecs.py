@@ -70,15 +70,15 @@ for q in range(len(urlList)):
             DataList.append(Data.string)
         Data = Data.find_next('div', attrs={"class": "TechnicalValue"})
 
-    colNum_Label = 0
+    colNum = 0
 
     Name = soup.find('h1')
-    excelTable.write(rowNum, colNum_Label, Name.string)
+    excelTable.write(rowNum, colNum, Name.string)
 
     for i in range(len(LabelList)):
-        excelTable.write(rowNum, 2 * colNum_Label + 1, LabelList[i])
-        excelTable.write(rowNum, 2 * colNum_Label + 2, DataList[i])
-        colNum_Label += 1
+        excelTable.write(rowNum, 2 * colNum + 1, LabelList[i])
+        excelTable.write(rowNum, 2 * colNum + 2, DataList[i])
+        colNum += 1
     rowNum += 1
 
 excelFile.save('Grob.xls')
