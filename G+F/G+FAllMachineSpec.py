@@ -16,7 +16,7 @@ optionChrome.add_argument('--disable-gpu')
 optionChrome.add_argument('disable-plugins')
 optionChrome.add_argument('disable-extensions')
 
-u = 'https://www.gfms.com/country_SG/en/Products/Milling/high-speed-milling--hsm-/hsm--high-speed-machining-centers/hsm-200u-lp.html'
+
 ##################################################################################################################################
 #url collection
 u = ['https://www.gfms.com/com/en/Products/Milling/high-speed-milling--hsm-.html', 'https://www.gfms.com/com/en/Products/Milling/high-performance-machining-centers.html', 'https://www.gfms.com/com/en/Products/Milling/standard-machining-centers.html', 'https://www.gfms.com/com/en/Products/Milling/HEM.html']
