@@ -1,5 +1,5 @@
 import os
-import pandas as pd
+#import pandas as pd
 import openpyxl
 from openpyxl import load_workbook
 from xlwt import *
@@ -8,7 +8,7 @@ from openpyxl.styles.colors import YELLOW
 
 cwd = os.getcwd()
 print(cwd)
-os.chdir("/Users/qinhaochen/Documents")
+os.chdir("/Users/z00445wp/Desktop/MachineDataSpider")
 print(os.listdir("."))
 excelFile = Workbook(encoding='utf-8')
 excelTable = excelFile.add_sheet('Specifications')
@@ -26,7 +26,7 @@ for q in range(len(string)):
         for j in range(sheet.max_column):
             if j % 2 == 1:
                 Spec = sheet.cell(row=i+1, column=j+1).value
-                if str(Spec) not in Label_List:
+                if str(Spec) not in Label_List and Spec is not None:
                     Label_List.append(str(Spec))
                 else:
                     pass
