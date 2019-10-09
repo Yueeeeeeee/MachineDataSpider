@@ -15,10 +15,11 @@ excelTable = excelFile.add_sheet('MCenter')
 wb = load_workbook('./Categories.xlsx')
 
 string = ['Turning']
-MCenter_Chuck = ["Chuck size", "Chuck size main spindle", "Chuck diameter  mm", "Max. chuck size"]
-MCenter_Number = ["Number of tools", "Number of stations -", "No. of tool station", "Max. number of tool carriers"]
-MCenter_Speed = ["Rotating speed maximum", "Maximum milling spindle speed", "Speed max. rpm", "Max. Spindle Speed", "Max spindle motor speed", "Max. speed"]
-MCenter_Power = ["Power at 100% / 40% kW", "Power max. kW"]
+Turning_Chuck = ["Chuck size", "Chuck size main spindle", "Chuck diameter  mm", "Max. chuck size"]
+Turning_Number = ["Number of tools", "Number of stations -", "No. of tool station", "Max. number of tool carriers"]
+Turning_Speed = ["Rotating speed maximum", "Maximum milling spindle speed", "Speed max. rpm", "Max. Spindle Speed", "Max spindle motor speed", "Max. speed"]
+Turning_Power = ["Power at 100% / 40% kW", "Power max. kW"]
+
 
 
 
