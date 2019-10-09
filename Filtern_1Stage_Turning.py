@@ -20,7 +20,7 @@ Turning_Number = ["Number of tools", "Number of stations -", "No. of tool statio
 Turning_Speed = ["Rotating speed maximum", "Maximum milling spindle speed", "Speed max. rpm", "Max. Spindle Speed", "Max spindle motor speed", "Max. speed"]
 Turning_Power = ["Power at 100% / 40% kW", "Power max. kW"]
 
-
+#
 
 
 data_row = 0
