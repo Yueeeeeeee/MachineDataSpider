@@ -21,7 +21,7 @@ Turning_Speed = ["Rotating speed maximum", "Maximum milling spindle speed", "Spe
 Turning_Power = ["Power at 100% / 40% kW", "Power max. kW"]
 
 #
-
+#
 
 data_row = 0
 data_row_Table = 0
