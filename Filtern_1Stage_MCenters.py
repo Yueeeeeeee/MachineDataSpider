@@ -15,45 +15,7 @@ excelTable = excelFile.add_sheet('MCenter')
 wb = load_workbook('./Categories.xlsx')
 
 string = ['MCenter']
-MCenter_Filter = ['Rapid traverse speed X/Y/Z | Power (Speed) m/min', 'Rapid traverse speed X/Y/Z m/min',
-                     "Working travels in X-/Y'-/Z-axis (mm)", "Max. speeds in X-/Y'-/Z-axis (m/min)",
-                     "Positioning range X/Y/Z mm",
-                     "Max. speeds (5-axis version) in X'-/Y-/Z-/W-axis (m/min)",
-                     "Working travels (5-axis version) in X'-/Y-/Z-/W-axis (mm)",
-                     "Max. speeds max. in X-/Y'-/Z-Achse (m/min)",
-                     "Travel X, Y, Z", "Rapid traverse X, Y, Z", "Rapid traverse X, Y",
-                     "Feed rate / rapid traverse X, Y, Z", "Rapide traverse Z",
-                     "Feed rate / rapid traverse (swiveling, rotating)", "Feed rate / Rapid traverse Z",
-                     "Max. X travels", "Max. Y travels", "Max. Z travel", "Max. X axis", "Max. Y axis", "Max. Z axis",
-                     "X Axis Travel distance", "Y Axis Travel distance",	"Z Axis Travel distance",
-                     "X Axis Rapid Traverse",
-                     "Y Axis Rapid Traverse",	"Z Axis Rapid Traverse",
-                     "X-axis travel (column right and left)",
-                     "Y-axis travel (spindle up and down)",	"Z-axis travel (table back and forth)",
-                     "Rapid traverse (X/Y/Z)",
-                     "Maximum rapid traverse X-axis",
-                     "Maximum rapid traverse Y-axis",
-                     "Maximum rapid traverse Z-axis",
-                     "X-axis travel (Spindle head cross-wise)",
-                     "Y-axis travel (Spindle head up/down)",
-                     "X-axis travel (Spindle head right/left)",
-                  "Rapid traverse (swiveling, rotating)",
-                  "Z-axis travel (Table back/forth)", "Z-axis travel (Spindle head back/forth)",
-                  "Rapid traverse rate Z-axis", "Rapid traverse (X-axis)", "Rapid traverse (Y-axis)",
-                  "Rapid traverse (Z-axis)", "Rapid traverse rate (X-axis)", "Rapid traverse rate (Y-axis)",
-                  "Rapid traverse rate (Z-axis)", "Rapid traverse rate (X/Y/Z)"
-                  "Rapid traverse rate X-axis",	"Rapid traverse rate Y-axis", "Rapid traverse rate Z-Axis",
-                  "Rapid traverse (X)",	"Rapid traverse (Y)", "Rapid traverse (Z)",
-                  "Rapid traverse rate (X-,  Y-,  Z-)", "Maximum workpiece diameter", "Maximum workpiece height",
-                  "Max.material diameter", "X - axis", "Y - axis", "Maximum machining diameter",
-                  "Maximum workpiece width (X)", "Maximum workpiece length (Y)",
-                  "Maximum machining diameter (upper turret)", "Maximum machining length",
-                  "Maximum machining diameter (lower turret)",
-                  "Work table cross dimension",	"Work table longitudinal dimension", "Maximum workpiece width",
-                  "Maximum workpiece length", "X axis stroke", "Y axis stroke", "Z axis stroke", "X-axis stroke",
-                  "Y-axis stroke", "Z-axis stroke", "X-axis stroke (saddle right/left movement)",
-                  "Y-axis stroke (column back/forth movement)", "Z-axis stroke (spindle up/down movement)",
-                  "Movement stroke X", "Movement stroke Z",	"Movement stroke Y"]
+
 
 MCenter_DiameterFilter = ["Working travels in X-/Y'-/Z-axis (mm)", "Positioning range X/Y/Z mm",
                          "Working travels (5-axis version) in X'-/Y-/Z-/W-axis (mm)",
@@ -81,7 +43,28 @@ MCenter_DiameterFilter = ["Working travels in X-/Y'-/Z-axis (mm)", "Positioning 
                       "Y-axis stroke (Spindle head right/left)", "Z-axis stroke (Spindle head up/down)",
                       "A-axis travel", "C-axis travel (table rotating)", "A-axis (table tilt) travel amount/indexing 0.0001°",
                       "B axis rotational stroke","C-axis (table rotation) travel amount/indexing 0.0001°",
-                          "C-axis travel (standard)", "C-axis travel (optional)"]
+                          "C-axis travel (standard)", "C-axis travel (optional)", "Max tool diameter (adjacent pockets occupied)"]
+
+MCenter_Traverse = ['Rapid traverse speed X/Y/Z | Power (Speed) m/min', 'Rapid traverse speed X/Y/Z m/min',
+                     "Max. speeds in X-/Y'-/Z-axis (m/min)",
+                     "Max. speeds (5-axis version) in X'-/Y-/Z-/W-axis (m/min)",
+                     "Max. speeds max. in X-/Y'-/Z-Achse (m/min)",
+                     "Rapid traverse X, Y, Z", "Rapid traverse X, Y",
+                     "Feed rate / rapid traverse X, Y, Z", "Rapide traverse Z",
+                     "Feed rate / rapid traverse (swiveling, rotating)", "Feed rate / Rapid traverse Z",
+                     "X Axis Rapid Traverse",
+                     "Y Axis Rapid Traverse",	"Z Axis Rapid Traverse",
+                     "Rapid traverse (X/Y/Z)",
+                     "Maximum rapid traverse X-axis",
+                     "Maximum rapid traverse Y-axis",
+                     "Maximum rapid traverse Z-axis",
+                      "Rapid traverse (swiveling, rotating)",
+                      "Rapid traverse rate Z-axis", "Rapid traverse (X-axis)", "Rapid traverse (Y-axis)",
+                      "Rapid traverse (Z-axis)", "Rapid traverse rate (X-axis)", "Rapid traverse rate (Y-axis)",
+                      "Rapid traverse rate (Z-axis)", "Rapid traverse rate (X/Y/Z)",
+                      "Rapid traverse rate X-axis",	"Rapid traverse rate Y-axis", "Rapid traverse rate Z-Axis",
+                      "Rapid traverse (X)",	"Rapid traverse (Y)", "Rapid traverse (Z)",
+                      "Rapid traverse rate (X-,  Y-,  Z-)"]
 
 
 MCenter_MaxXFilter = []
@@ -140,6 +123,48 @@ for q in range(len(MCenter_DiameterFilter)):
 
 print(MCenter_MaxCFilter)
 
+MCenter_DimensionD = []
+for q in range(len(MCenter_DiameterFilter)):
+    if "diameter" in MCenter_DiameterFilter[q]:
+        MCenter_DimensionD.append(MCenter_DiameterFilter[q])
+
+print(MCenter_DimensionD)
+
+MCenter_DimensionH = ['Maximum workpiece height', "Workpiece dimension Diameter x height mm", "Max. worpiece height"]
+MCenter_DimensionL = ["Work table cross dimension",	"Work table longitudinal dimension", "Maximum machining length", "Maximum workpiece length", "Max. material length for loading"]
+
+MCenter_TraverseXFilter = []
+for q in range(len(MCenter_Traverse)):
+    if "X" in MCenter_Traverse[q]:
+        MCenter_TraverseXFilter.append(MCenter_Traverse[q])
+
+print(MCenter_TraverseXFilter)
+
+MCenter_TraverseYFilter = []
+for q in range(len(MCenter_Traverse)):
+    if "Y" in MCenter_Traverse[q]:
+        MCenter_TraverseYFilter.append(MCenter_Traverse[q])
+
+print(MCenter_TraverseYFilter)
+
+MCenter_TraverseZFilter = []
+for q in range(len(MCenter_Traverse)):
+    if "Z" in MCenter_Traverse[q]:
+        MCenter_TraverseZFilter.append(MCenter_Traverse[q])
+
+print(MCenter_TraverseZFilter)
+
+MCenter_TraverseWFilter = []
+for q in range(len(MCenter_Traverse)):
+    if "W" in MCenter_Traverse[q]:
+        MCenter_TraverseWFilter.append(MCenter_Traverse[q])
+
+print(MCenter_TraverseWFilter)
+
+MCenter_Spindle = ["Maximum rpm [min-1]", "Max. speed (Option)", "Max. Spindle Speed", "Spindle speed maximum",
+                   "Rotating speed maximum", "Rotational speed (maximum)", "Milling spindle speed maximum",
+                   "Max tool diameter (adjacent pockets empty)", "Max tool length (from gauge line)",
+                   "Rotational speed max", "Spindle speed maximum (standard spec.)"]
 
 data_row = 0
 data_row_Table = 0
@@ -354,6 +379,258 @@ for i in range(sheet.max_row):                        # screening from top to bo
             Spec = sheet.cell(row=i + 1, column=j + 1).value  # Screening the specs, save
             Data = sheet.cell(row=i + 1, column=j + 2).value
             if Spec in MCenter_MaxCFilter:
+                excelTable.write(data_row_Table, data_column, str(Spec))
+                excelTable.write(data_row_Table, data_column + 1, str(Data))
+                stop_point = 1
+            else:
+                pass
+        else:
+            pass
+    data_row_Table += 1
+
+data_row = 0
+data_row_Table = 0
+stop_point = 0
+
+######### First two columns for X Traverse??
+for i in range(sheet.max_row):                        # screening from top to bottom
+    stop_point = 0
+    data_column = 15
+    for j in range(0, sheet.max_column):
+        if j % 2 == 1 and stop_point == 0:
+            Spec = sheet.cell(row=i + 1, column=j + 1).value  # Screening the specs, save
+            Data = sheet.cell(row=i + 1, column=j + 2).value
+            if Spec in MCenter_TraverseXFilter:
+                if "/Z" not in Spec and ", Z" not in Spec:
+                    excelTable.write(data_row_Table, data_column, str(Spec))
+                    excelTable.write(data_row_Table, data_column + 1, str(Data))
+                    stop_point = 1
+                elif "/Z" in Spec:
+                    Spec = str(Spec).split('/')[0]
+                    try:
+                        Data = str(Data).split('/')[0]
+                    except:
+                        pass
+                    excelTable.write(data_row_Table, data_column, str(Spec))
+                    excelTable.write(data_row_Table, data_column + 1, str(Data))
+                    stop_point = 1
+                elif ", Z" in Spec:
+                    Spec = str(Spec).split(',')[0]
+                    try:
+                        Data = str(Data).split('x')[0]
+                    except:
+                        pass
+                    excelTable.write(data_row_Table, data_column, str(Spec))
+                    excelTable.write(data_row_Table, data_column + 1, str(Data))
+                    stop_point = 1
+
+            else:
+                pass
+        else:
+            pass
+    data_row_Table += 1
+
+data_row = 0
+data_row_Table = 0
+stop_point = 0
+
+######### First two columns for Y Traverse??
+for i in range(sheet.max_row):                        # screening from top to bottom
+    stop_point = 0
+    data_column = 17
+    for j in range(0, sheet.max_column):
+        if j % 2 == 1 and stop_point == 0:
+            Spec = sheet.cell(row=i + 1, column=j + 1).value  # Screening the specs, save
+            Data = sheet.cell(row=i + 1, column=j + 2).value
+            if Spec in MCenter_TraverseYFilter:
+                if "/Y" not in Spec and ", Y" not in Spec:
+                    excelTable.write(data_row_Table, data_column, str(Spec))
+                    excelTable.write(data_row_Table, data_column + 1, str(Data))
+                    stop_point = 1
+                elif "/Y" in Spec:
+                    Spec = str(Spec).split('/')[1]
+                    try:
+                        Data = str(Data).split('/')[1]
+                    except:
+                        pass
+                    excelTable.write(data_row_Table, data_column, str(Spec))
+                    excelTable.write(data_row_Table, data_column + 1, str(Data))
+                    stop_point = 1
+                elif ", Y" in Spec:
+                    Spec = str(Spec).split(',')[1]
+                    try:
+                        Data = str(Data).split('x')[1]
+                    except:
+                        pass
+                    excelTable.write(data_row_Table, data_column, str(Spec))
+                    excelTable.write(data_row_Table, data_column + 1, str(Data))
+                    stop_point = 1
+
+            else:
+                pass
+        else:
+            pass
+    data_row_Table += 1
+
+data_row = 0
+data_row_Table = 0
+stop_point = 0
+
+######### First two columns for Z Traverse??
+for i in range(sheet.max_row):                        # screening from top to bottom
+    stop_point = 0
+    data_column = 19
+    for j in range(0, sheet.max_column):
+        if j % 2 == 1 and stop_point == 0:
+            Spec = sheet.cell(row=i + 1, column=j + 1).value  # Screening the specs, save
+            Data = sheet.cell(row=i + 1, column=j + 2).value
+            if Spec in MCenter_TraverseZFilter:
+                if "/Z" not in Spec and ", Z" not in Spec:
+                    excelTable.write(data_row_Table, data_column, str(Spec))
+                    excelTable.write(data_row_Table, data_column + 1, str(Data))
+                    stop_point = 1
+                elif "/Z" in Spec:
+                    Spec = str(Spec).split('/')[2]
+                    try:
+                        Data = str(Data).split('/')[2]
+                    except:
+                        pass
+                    excelTable.write(data_row_Table, data_column, str(Spec))
+                    excelTable.write(data_row_Table, data_column + 1, str(Data))
+                    stop_point = 1
+                elif ", Z" in Spec:
+                    Spec = str(Spec).split(',')[2]
+                    try:
+                        Data = str(Data).split('x')[2]
+                    except:
+                        pass
+                    excelTable.write(data_row_Table, data_column, str(Spec))
+                    excelTable.write(data_row_Table, data_column + 1, str(Data))
+                    stop_point = 1
+
+            else:
+                pass
+        else:
+            pass
+    data_row_Table += 1
+
+data_row = 0
+data_row_Table = 0
+stop_point = 0
+
+######### First two columns for W Traverse??
+for i in range(sheet.max_row):                        # screening from top to bottom
+    stop_point = 0
+    data_column = 21
+    for j in range(0, sheet.max_column):
+        if j % 2 == 1 and stop_point == 0:
+            Spec = sheet.cell(row=i + 1, column=j + 1).value  # Screening the specs, save
+            Data = sheet.cell(row=i + 1, column=j + 2).value
+            if Spec in MCenter_TraverseWFilter:
+                if "/Z" not in Spec and ", Z" not in Spec:
+                    excelTable.write(data_row_Table, data_column, str(Spec))
+                    excelTable.write(data_row_Table, data_column + 1, str(Data))
+                    stop_point = 1
+                elif "/Z" in Spec:
+                    Spec = str(Spec).split('/')[2]
+                    try:
+                        Data = str(Data).split('/')[2]
+                    except:
+                        pass
+                    excelTable.write(data_row_Table, data_column, str(Spec))
+                    excelTable.write(data_row_Table, data_column + 1, str(Data))
+                    stop_point = 1
+                elif ", Z" in Spec:
+                    Spec = str(Spec).split(',')[2]
+                    try:
+                        Data = str(Data).split('x')[2]
+                    except:
+                        pass
+                    excelTable.write(data_row_Table, data_column, str(Spec))
+                    excelTable.write(data_row_Table, data_column + 1, str(Data))
+                    stop_point = 1
+
+            else:
+                pass
+        else:
+            pass
+    data_row_Table += 1
+
+data_row = 0
+data_row_Table = 0
+stop_point = 0
+######### First two columns for C Max???
+for i in range(sheet.max_row):                        # screening from top to bottom
+    stop_point = 0
+    data_column = 23
+    for j in range(0, sheet.max_column):
+        if j % 2 == 1 and stop_point == 0:
+            Spec = sheet.cell(row=i + 1, column=j + 1).value  # Screening the specs, save
+            Data = sheet.cell(row=i + 1, column=j + 2).value
+            if Spec in MCenter_DimensionD:
+                excelTable.write(data_row_Table, data_column, str(Spec))
+                excelTable.write(data_row_Table, data_column + 1, str(Data))
+                stop_point = 1
+            else:
+                pass
+        else:
+            pass
+    data_row_Table += 1
+
+data_row = 0
+data_row_Table = 0
+stop_point = 0
+######### First two columns for C Max???
+for i in range(sheet.max_row):                        # screening from top to bottom
+    stop_point = 0
+    data_column = 25
+    for j in range(0, sheet.max_column):
+        if j % 2 == 1 and stop_point == 0:
+            Spec = sheet.cell(row=i + 1, column=j + 1).value  # Screening the specs, save
+            Data = sheet.cell(row=i + 1, column=j + 2).value
+            if Spec in MCenter_DimensionH:
+                excelTable.write(data_row_Table, data_column, str(Spec))
+                excelTable.write(data_row_Table, data_column + 1, str(Data))
+                stop_point = 1
+            else:
+                pass
+        else:
+            pass
+    data_row_Table += 1
+
+data_row = 0
+data_row_Table = 0
+stop_point = 0
+######### First two columns for C Max???
+for i in range(sheet.max_row):                        # screening from top to bottom
+    stop_point = 0
+    data_column = 27
+    for j in range(0, sheet.max_column):
+        if j % 2 == 1 and stop_point == 0:
+            Spec = sheet.cell(row=i + 1, column=j + 1).value  # Screening the specs, save
+            Data = sheet.cell(row=i + 1, column=j + 2).value
+            if Spec in MCenter_DimensionL:
+                excelTable.write(data_row_Table, data_column, str(Spec))
+                excelTable.write(data_row_Table, data_column + 1, str(Data))
+                stop_point = 1
+            else:
+                pass
+        else:
+            pass
+    data_row_Table += 1
+
+data_row = 0
+data_row_Table = 0
+stop_point = 0
+######### First two columns for C Max???
+for i in range(sheet.max_row):                        # screening from top to bottom
+    stop_point = 0
+    data_column = 29
+    for j in range(0, sheet.max_column):
+        if j % 2 == 1 and stop_point == 0:
+            Spec = sheet.cell(row=i + 1, column=j + 1).value  # Screening the specs, save
+            Data = sheet.cell(row=i + 1, column=j + 2).value
+            if Spec in MCenter_Spindle:
                 excelTable.write(data_row_Table, data_column, str(Spec))
                 excelTable.write(data_row_Table, data_column + 1, str(Data))
                 stop_point = 1
